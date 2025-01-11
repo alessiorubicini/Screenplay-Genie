@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @AppStorage("firstLaunch") var firstLaunch: Bool = true
+    
     @State private var selectedLesson: Lesson? = nil
     @State private var lessons: [Lesson] = Lesson.allLessons
     @State private var screenplay: String = ""
@@ -48,7 +51,7 @@ struct ContentView: View {
                 
                 Section(header: Text("Playground")) {
                     NavigationLink {
-                        EmptyView()
+                        Playground(screenplay: $screenplay)
                     } label: {
                         Label("Free Playground", systemImage: "pencil")
                     }
@@ -67,11 +70,16 @@ struct ContentView: View {
             if allLessonsCompleted {
                 ContentUnavailableView("Select a lesson or the playground", systemImage: "pencil")
             } else {
-                ContentUnavailableView("Select a lesson.\n\nThe playground will be available once you complete all lessons", systemImage: "graduationcap.fill")
+                ContentUnavailableView("Select a lesson.", systemImage: "graduationcap.fill", description: Text("The playground will be available once you complete all the lessons."))
+                
             }
         } detail: {
             ScreenplayPreviewView(screenplay: screenplay)
         }
+        
+        /*.sheet(isPresented: $firstLaunch) {
+            OnboardingView()
+        }*/
     }
     
     var allLessonsCompleted: Bool {
