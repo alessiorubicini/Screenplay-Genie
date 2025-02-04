@@ -8,6 +8,7 @@
 import Foundation
 
 struct Lesson: Identifiable, Hashable {
+    
     let id = UUID()
     let title: String
     let icon: String  // SF Symbols icon
@@ -15,6 +16,6 @@ struct Lesson: Identifiable, Hashable {
     let example: String
     let regex: String
     var isCompleted: Bool = false
-    
-    
+    var userInput: String = ""
+    var previousInput: String = ""
 }

@@ -11,7 +11,6 @@ struct LessonDetailView: View {
     
     @Binding var lesson: Lesson
     @Binding var screenplay: String
-    @State private var userInput: String = ""
     @State private var isValid: Bool = false
 
     var body: some View {
@@ -29,16 +28,31 @@ struct LessonDetailView: View {
                     .italic()
                 
                 // Text Editor for Input
-                TextEditor(text: $userInput)
+                TextEditor(text: $lesson.userInput)
                     .frame(height: 100)
                     .border(editorBorderColor)
                     .padding(.bottom)
-                    .onChange(of: userInput) {
-                        isValid = NSPredicate(format: "SELF MATCHES %@", lesson.regex).evaluate(with: userInput)
-                        if isValid && !lesson.isCompleted {
-                            lesson.isCompleted = true
-                            screenplay += ("\n\n" + userInput)
+                    .onChange(of: lesson.userInput) {
+                        let newIsValid = NSPredicate(format: "SELF MATCHES %@", lesson.regex).evaluate(with: lesson.userInput)
+                        
+                        if newIsValid {
+                            if !lesson.isCompleted {
+                                lesson.isCompleted = true
+                            }
+                            
+                            // Trova e sostituisci solo il vecchio valore all'interno di screenplay
+                            if let range = screenplay.range(of: lesson.previousInput) {
+                                screenplay.replaceSubrange(range, with: lesson.userInput)
+                            } else {
+                                // Se il valore non esiste ancora nello screenplay, lo aggiunge
+                                screenplay += "\n\n" + lesson.userInput
+                            }
+                            
+                            // Aggiorna il valore precedentemente scritto
+                            lesson.previousInput = lesson.userInput
                         }
+                        
+                        isValid = newIsValid
                     }
                 
                 // Feedback
@@ -46,7 +60,7 @@ struct LessonDetailView: View {
                     Text("Correct!")
                         .font(.headline)
                         .foregroundColor(.green)
-                } else if userInput.isEmpty {
+                } else if lesson.userInput.isEmpty {
                     Text("Please write something.")
                         .font(.headline)
                 } else {
@@ -65,7 +79,7 @@ struct LessonDetailView: View {
     var editorBorderColor: Color {
         if isValid {
             return .green
-        } else if userInput.isEmpty {
+        } else if lesson.userInput.isEmpty {
             return .gray
         } else {
             return .red

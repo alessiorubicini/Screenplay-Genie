@@ -31,11 +31,11 @@ struct ContentView: View {
                 }
                 
                 Section(header: Text("Lessons")) {
-                    ForEach($lessons) { $lesson in
+                    ForEach(0..<lessons.count, id: \.self) { index in
+                        let lesson = lessons[index]
                         NavigationLink {
-                            LessonDetailView(lesson: $lesson, screenplay: $screenplay)
+                            LessonDetailView(lesson: $lessons[index], screenplay: $screenplay)
                         } label: {
-
                             HStack {
                                 Label(lesson.title, systemImage: lesson.icon)
                                 Spacer()
@@ -45,7 +45,7 @@ struct ContentView: View {
                                 }
                             }
                         }
-
+                        .disabled(index > 0 && !lessons[index - 1].isCompleted)
                     }
                 }
                 

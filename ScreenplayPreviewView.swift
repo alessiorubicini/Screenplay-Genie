@@ -91,12 +91,14 @@ struct ScreenplayPreviewView: View {
                             Text(line)
                                 .font(.custom("Courier", size: fontSize))
                                 .fontWeight(.bold)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading, fontSize)
                                 .multilineTextAlignment(.leading)
                             
                         case .action:
                             Text(line)
                                 .font(.custom("Courier", size: fontSize))
+                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading, fontSize)
                                 .multilineTextAlignment(.leading)
                             
@@ -152,17 +154,6 @@ struct ScreenplayPreviewView: View {
     } content: {
         //ContentUnavailableView("Select a lesson or the playground", systemImage: "pencil")
     } detail: {
-        ScreenplayPreviewView(screenplay: """
-        INT. LIVING ROOM - DAY
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel libero vel libero.
-
-        JOHN: Hello, how are you?
-        (whispering)
-        I think we should leave.
-
-        MARY: Yeah, I agree.
-
-        FADE OUT.
-        """)
+        ScreenplayPreviewView(screenplay: ScreenplayMocks.onlyHeading.rawValue)
     }
 }
