@@ -14,22 +14,20 @@ struct ContentView: View {
     @State private var selectedLesson: Lesson? = nil
     @State private var lessons: [Lesson] = Lesson.allLessons
     @State private var screenplay: String = ""
-    
     @State private var visibility: NavigationSplitViewVisibility = .all
+    @State private var isShowingAbout = false  // Stato per mostrare la AboutView
     
     var body: some View {
-
         NavigationSplitView(columnVisibility: $visibility) {
-            // Sidebar: List of Lessons
             List {
+                // Introduction Section
                 Section {
-                    NavigationLink {
-                        IntroductionView()
-                    } label: {
+                    NavigationLink(value: "introduction") {
                         Label("Introduction", systemImage: "info.circle")
                     }
                 }
                 
+                // Lessons Section
                 Section(header: Text("Lessons")) {
                     ForEach(0..<lessons.count, id: \.self) { index in
                         let lesson = lessons[index]
@@ -49,40 +47,71 @@ struct ContentView: View {
                     }
                 }
                 
+                // Playground Section
                 Section(header: Text("Playground")) {
-                    NavigationLink {
-                        Playground(screenplay: $screenplay)
-                    } label: {
+                    NavigationLink(value: "playground") {
                         Label("Free Playground", systemImage: "pencil")
                     }
-                }.disabled(!allLessonsCompleted)
+                }
+                .disabled(!allLessonsCompleted)
                 
+                // About Section (apre lo sheet)
                 Section(header: Text("About")) {
-                    NavigationLink {
-                        EmptyView()
+                    Button {
+                        isShowingAbout = true  // Mostra lo sheet
                     } label: {
                         Label("About this app", systemImage: "info.circle")
                     }
                 }
             }
             .navigationTitle("Screenplay Genie")
+            .navigationDestination(for: Lesson.self) { lesson in
+                LessonDetailView(lesson: binding(for: lesson), screenplay: $screenplay)
+            }
+            .navigationDestination(for: String.self) { destination in
+                switch destination {
+                case "introduction":
+                    IntroductionView(selectedLesson: $selectedLesson)
+                case "playground":
+                    Playground(screenplay: $screenplay)
+                default:
+                    EmptyView()
+                }
+            }
         } content: {
+            
             if allLessonsCompleted {
                 ContentUnavailableView("Select a lesson or the playground", systemImage: "pencil")
             } else {
                 ContentUnavailableView("Select a lesson.", systemImage: "graduationcap.fill", description: Text("The playground will be available once you complete all the lessons."))
-                
             }
+            
         } detail: {
+            
             ScreenplayPreviewView(screenplay: screenplay)
+            
         }
-        
-        /*.sheet(isPresented: $firstLaunch) {
+        .sheet(isPresented: $isShowingAbout) {
+            AboutView()
+        }
+        .sheet(isPresented: $firstLaunch) {
             OnboardingView()
-        }*/
+        }
     }
     
     var allLessonsCompleted: Bool {
         lessons.allSatisfy { $0.isCompleted }
+    }
+    
+    private func canAccessLesson(_ lesson: Lesson) -> Bool {
+        guard let index = lessons.firstIndex(where: { $0.id == lesson.id }) else { return false }
+        return index == 0 || lessons[index - 1].isCompleted
+    }
+    
+    private func binding(for lesson: Lesson) -> Binding<Lesson> {
+        guard let index = lessons.firstIndex(where: { $0.id == lesson.id }) else {
+            fatalError("Lesson not found")
+        }
+        return $lessons[index]
     }
 }

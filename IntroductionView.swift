@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct IntroductionView: View {
+    
+    @Binding var selectedLesson: Lesson?
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -58,6 +61,13 @@ struct IntroductionView: View {
                 """)
                 .font(.body)
                 .lineSpacing(6)
+                
+                /*Button {
+                    selectedLesson = Lesson.allLessons.first
+                } label: {
+                    Text("Go to Lesson 1").fontWeight(.semibold)
+                }.buttonStyle(.bordered).controlSize(.large)*/
+
                 
                 Spacer()
             }
