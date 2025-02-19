@@ -13,15 +13,19 @@ enum ScreenplayMocks: String {
     case onlyDialogue = "Hello"
     case onlyTransition = "FADE OUT"
     case fullScreenplay = """
-        INT. LIVING ROOM - DAY
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel libero vel libero.
+        INT. HALLWAY - NIGHT
+    
+        Sanborn and Steel walk down the hallway. 
 
-        JOHN: Hello, how are you?
-        (whispering)
-        I think we should leave.
+        SANBORN
+        A good ‘ole boy. You know, loves the Army, blood runs green. Country boy. Seems solid.
 
-        MARY: Yeah, I agree.
+        Steel nods, taking it in.
+    
+        STEEL
+        (starting the engine)
+        So much for retirement!
 
-        FADE OUT.
+        CUT TO:
     """
 }

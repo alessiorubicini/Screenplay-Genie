@@ -48,12 +48,15 @@ struct ContentView: View {
                 }
                 
                 // Playground Section
-                Section(header: Text("Playground")) {
+                Section(header: Text("Experiment")) {
                     NavigationLink(value: "playground") {
-                        Label("Free Playground", systemImage: "pencil")
+                        Label("Playground", systemImage: "pencil")
+                    }
+                    NavigationLink(value: "fountain") {
+                        Label("Syntax Manual", systemImage: "book.pages")
                     }
                 }
-                .disabled(!allLessonsCompleted)
+                //.disabled(!allLessonsCompleted)
                 
                 // About Section (apre lo sheet)
                 Section(header: Text("About")) {
@@ -74,6 +77,9 @@ struct ContentView: View {
                     IntroductionView(selectedLesson: $selectedLesson)
                 case "playground":
                     Playground(screenplay: $screenplay)
+                case "manual":
+                    SafariView(url: URL(string: "https://fountain.io/syntax")!)
+                    
                 default:
                     EmptyView()
                 }
