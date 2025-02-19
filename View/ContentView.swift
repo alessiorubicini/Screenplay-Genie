@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var screenplay: String = ""
     @State private var visibility: NavigationSplitViewVisibility = .all
     @State private var isShowingAbout = false  // Stato per mostrare la AboutView
+    @State private var showManual: Bool = false
     
     var body: some View {
         NavigationSplitView(columnVisibility: $visibility) {
@@ -52,11 +53,14 @@ struct ContentView: View {
                     NavigationLink(value: "playground") {
                         Label("Playground", systemImage: "pencil")
                     }
-                    NavigationLink(value: "fountain") {
+                    Button {
+                        showManual.toggle()
+                    } label: {
                         Label("Syntax Manual", systemImage: "book.pages")
                     }
+
                 }
-                //.disabled(!allLessonsCompleted)
+                .disabled(!allLessonsCompleted)
                 
                 // About Section (apre lo sheet)
                 Section(header: Text("About")) {
@@ -77,9 +81,6 @@ struct ContentView: View {
                     IntroductionView(selectedLesson: $selectedLesson)
                 case "playground":
                     Playground(screenplay: $screenplay)
-                case "manual":
-                    SafariView(url: URL(string: "https://fountain.io/syntax")!)
-                    
                 default:
                     EmptyView()
                 }
@@ -102,6 +103,9 @@ struct ContentView: View {
         }
         .sheet(isPresented: $firstLaunch) {
             OnboardingView()
+        }
+        .sheet(isPresented: $showManual) {
+            SafariView(url: URL(string: "https://fountain.io/syntax")!)
         }
     }
     

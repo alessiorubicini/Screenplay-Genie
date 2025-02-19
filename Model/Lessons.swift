@@ -14,7 +14,7 @@ extension Lesson {
             icon: "rectangle.and.text.magnifyingglass",
             explanation: "A scene heading is a crucial element in a screenplay. It sets the scene by specifying whether the location is interior (INT.) or exterior (EXT.), followed by the specific location, and then the time of day.\n\nThis gives the reader (or director, actor, etc.) a clear understanding of where and when the scene is taking place. Scene headings are always written in all caps and must adhere to a specific structure to maintain consistency and clarity in the screenplay.\n\nThe format also includes terms like “DAY” or “NIGHT” to indicate the time of day. Using correct scene headings ensures your screenplay is easy to read and professional.",
             example: "Example: INT. OFFICE - NIGHT",
-            regex: #"^(INT\.?|EXT\.?)(.*)$"#
+            regex: #"^(INT\.|EXT\.)\s+[A-Z0-9\s]+-\s*[A-Z0-9\s]+$"#
         ),
         Lesson(
             title: "Action Lines",
@@ -27,15 +27,16 @@ extension Lesson {
             title: "Dialogues",
             icon: "text.bubble",
             explanation: "Dialogue lines represent what the characters say during the story. This is one of the most important elements of a screenplay because it reveals a character’s personality, thoughts, and motivations.\n\nDialogue is always preceded by the character’s name, written in uppercase letters. The dialogue text itself is typically written in regular sentence case.\n\nWhen writing dialogue, you need to ensure it’s realistic and true to the character, advancing the plot or revealing something about the character. Dialogue can convey a lot of information in a few words, so each line should be carefully crafted to suit the tone and pacing of the scene.",
-            example: "Example: JOHN\nHello, how are you?",
-            regex: "^[A-Z]+: .+$"
+            example: "Example:\nSANBORN\nA good ‘ole boy.",
+            regex: #"^[A-Z][A-Z\s]+\n.+$"#
         ),
         Lesson(
             title: "Parentheticals",
             icon: "parentheses",
             explanation: "Parentheticals are instructions that clarify how a line of dialogue should be delivered by the actor. They are placed in parentheses directly below the character’s name and are typically used to indicate the character’s emotional state, actions, or tone of voice.\n\nThese instructions should be used sparingly, as excessive parentheticals can clutter the screenplay and detract from the dialogue. They’re often used in specific moments to help guide the performance, such as “(shouting)” or “(whispering)”.\n\nParentheticals are meant to enhance the script and not dictate every nuance of the performance. It’s important to strike a balance—use them when necessary, but don’t over-explain the delivery of lines.",
-            example: "Example: (whispering) I'm not sure about this.",
-            regex: #"^\(.*\)$"#
+            example: "Example:\nSTEEL\n(starting the engine)\nSo much for retirement!",
+            regex: #"^[A-Z]+(?:\n.+)*\n\([^()]+\)"#
+            //               #"^\(.*\)$"#
         ),
         Lesson(
             title: "Transitions",

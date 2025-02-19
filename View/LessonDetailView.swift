@@ -33,6 +33,10 @@ struct LessonDetailView: View {
                     .border(editorBorderColor)
                     .padding(.bottom)
                     .onChange(of: lesson.userInput) {
+                        
+                        print("User input: " + lesson.userInput)
+                        print("Formatted: " + lesson.userInput.replacingOccurrences(of: "\n", with: "\\n"))
+                        
                         let newIsValid = NSPredicate(format: "SELF MATCHES %@", lesson.regex).evaluate(with: lesson.userInput)
                         
                         if newIsValid {
