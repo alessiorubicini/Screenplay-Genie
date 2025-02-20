@@ -45,7 +45,7 @@ struct ScreenplayPreviewView: View {
         let sceneHeadingRegex = #"^(INT\.?|EXT\.?)(.*)$"#
         let characterRegex = #"^[A-Z][A-Z0-9 @'’\-]+$"#
         let parentheticalRegex = #"^\(.*\)$"#
-        let transitionRegex = #"^(?:FADE (?:IN|OUT)|CUT TO|DISSOLVE TO|SMASH TO|WIPE TO|JUMP CUT|MATCH CUT TO)\.?$"#
+        let transitionRegex = #"^(?:FADE (?:IN|OUT)|CUT TO|DISSOLVE TO|SMASH TO|WIPE TO|JUMP CUT|MATCH CUT TO)[.:]$"#
         
         if NSPredicate(format: "SELF MATCHES %@", sceneHeadingRegex).evaluate(with: line) {
             return .heading
@@ -64,15 +64,16 @@ struct ScreenplayPreviewView: View {
     
     var body: some View {
         if screenplay.isEmpty {
-            
             ContentUnavailableView("Start Writing in a lesson or on the playground and see the magic happen!", systemImage: "pencil.line")
-            
         } else {
             ScrollView {
                 VStack {
-                    ForEach(parseScreenplay(), id: \.0) { line, type in
+                    let parsedLines = parseScreenplay() // Store parsed screenplay lines
+                    ForEach(parsedLines.indices, id: \.self) { index in
+                        let (line, type) = parsedLines[index]
+                        let nextType = index + 1 < parsedLines.count ? parsedLines[index + 1].1 : nil
+                        
                         switch type {
-                            
                         case .heading:
                             Text(line)
                                 .font(.custom("Courier", size: fontSize))
@@ -101,7 +102,7 @@ struct ScreenplayPreviewView: View {
                                 .font(.custom("Courier", size: fontSize))
                                 .frame(maxWidth: .infinity)
                                 .padding(.horizontal, fontSize * 5)
-                                .padding(.bottom, spacing)
+                                .padding(.bottom, nextType == .parenthetical ? 0 : spacing) // Conditionally apply bottom padding
                             
                         case .parenthetical:
                             Text(line)

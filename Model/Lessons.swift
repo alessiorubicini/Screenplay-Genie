@@ -35,15 +35,14 @@ extension Lesson {
             icon: "parentheses",
             explanation: "Parentheticals are instructions that clarify how a line of dialogue should be delivered by the actor. They are placed in parentheses directly below the character’s name and are typically used to indicate the character’s emotional state, actions, or tone of voice.\n\nThese instructions should be used sparingly, as excessive parentheticals can clutter the screenplay and detract from the dialogue. They’re often used in specific moments to help guide the performance, such as “(shouting)” or “(whispering)”.\n\nParentheticals are meant to enhance the script and not dictate every nuance of the performance. It’s important to strike a balance—use them when necessary, but don’t over-explain the delivery of lines.",
             example: "Example:\nSTEEL\n(starting the engine)\nSo much for retirement!",
-            regex: #"^[A-Z]+(?:\n.+)*\n\([^()]+\)"#
-            //               #"^\(.*\)$"#
+            regex: #"^[A-Z]+(?:\n.*)*\(\s*[^()]+\s*\)(?:\n.*)*"#
         ),
         Lesson(
             title: "Transitions",
             icon: "arrowshape.turn.up.right",
             explanation: "Transitions in a screenplay indicate how one scene transitions to another. They are typically written in all caps to make them stand out.\n\nTransitions help the director and editor know what kind of change is happening between scenes, such as whether one scene will cut to another or fade out to black. The most common transitions are “CUT TO”, “FADE OUT”, “DISSOLVE TO”, and “SMASH CUT”. These terms help to structure the flow of the film.\n\nHowever, screenwriters should be cautious about overusing transitions, as they can break the natural flow of the story. It’s often best to leave transitions to the director unless they are crucial for the visual storytelling.",
             example: "Example: CUT TO:",
-            regex: #"^(?:FADE (?:IN|OUT)|CUT TO|DISSOLVE TO|SMASH TO|WIPE TO|JUMP CUT|MATCH CUT TO)\.?$"#
+            regex: #"^(?:FADE (?:IN|OUT)|CUT TO|DISSOLVE TO|SMASH TO|WIPE TO|JUMP CUT|MATCH CUT TO)[.:]$"#
         )
     ]
     
