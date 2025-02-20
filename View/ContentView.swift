@@ -17,15 +17,19 @@ struct ContentView: View {
     @State private var visibility: NavigationSplitViewVisibility = .all
     @State private var isShowingAbout = false  // Stato per mostrare la AboutView
     @State private var showManual: Bool = false
+    @State private var confettiTrigger: Int = 0
     
     var body: some View {
         NavigationSplitView(columnVisibility: $visibility) {
             List {
                 // Introduction Section
                 Section {
-                    NavigationLink(value: "introduction") {
+                    NavigationLink {
+                        IntroductionView(selectedLesson: $selectedLesson)
+                    } label: {
                         Label("Introduction", systemImage: "info.circle")
                     }
+
                 }
                 
                 // Lessons Section
@@ -33,7 +37,7 @@ struct ContentView: View {
                     ForEach(0..<lessons.count, id: \.self) { index in
                         let lesson = lessons[index]
                         NavigationLink {
-                            LessonDetailView(lesson: $lessons[index], screenplay: $screenplay)
+                            LessonDetailView(lesson: $lessons[index], screenplay: $screenplay, confettiTrigger: $confettiTrigger)
                         } label: {
                             HStack {
                                 Label(lesson.title, systemImage: lesson.icon)
@@ -50,9 +54,12 @@ struct ContentView: View {
                 
                 // Playground Section
                 Section(header: Text("Experiment")) {
-                    NavigationLink(value: "playground") {
+                    NavigationLink {
+                        Playground(screenplay: $screenplay)
+                    } label: {
                         Label("Playground", systemImage: "pencil")
                     }
+
                     Button {
                         showManual.toggle()
                     } label: {
@@ -73,7 +80,7 @@ struct ContentView: View {
             }
             .navigationTitle("Screenplay Genie")
             .navigationDestination(for: Lesson.self) { lesson in
-                LessonDetailView(lesson: binding(for: lesson), screenplay: $screenplay)
+                LessonDetailView(lesson: binding(for: lesson), screenplay: $screenplay, confettiTrigger: $confettiTrigger)
             }
             .navigationDestination(for: String.self) { destination in
                 switch destination {
@@ -94,9 +101,7 @@ struct ContentView: View {
             }
             
         } detail: {
-            
             ScreenplayPreviewView(screenplay: screenplay)
-            
         }
         .sheet(isPresented: $isShowingAbout) {
             AboutView()
@@ -107,6 +112,7 @@ struct ContentView: View {
         .sheet(isPresented: $showManual) {
             SafariView(url: URL(string: "https://fountain.io/syntax")!)
         }
+        .confettiCannon(trigger: $confettiTrigger, num: 150, openingAngle: Angle(degrees: 0), closingAngle: Angle(degrees: 360), radius: 300)
     }
     
     var allLessonsCompleted: Bool {

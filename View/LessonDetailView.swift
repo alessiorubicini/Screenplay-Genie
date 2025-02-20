@@ -13,7 +13,7 @@ struct LessonDetailView: View {
     @Binding var lesson: Lesson
     @Binding var screenplay: String
     @State private var isValid: Bool = false
-    @State private var confettiTrigger: Int = 0
+    @Binding var confettiTrigger: Int
     
     var body: some View {
         ScrollView {
@@ -82,7 +82,7 @@ struct LessonDetailView: View {
         }
         .padding()
         .navigationTitle(lesson.title)
-        .confettiCannon(trigger: $confettiTrigger)
+        
     }
     
     var editorBorderColor: Color {
@@ -98,5 +98,5 @@ struct LessonDetailView: View {
 }
 
 #Preview {
-    LessonDetailView(lesson: .constant(Lesson.allLessons[0]), screenplay: .constant(""))
+    LessonDetailView(lesson: .constant(Lesson.allLessons[0]), screenplay: .constant(""), confettiTrigger: .constant(0))
 }
