@@ -15,11 +15,12 @@ struct AboutView: View {
         
         VStack(spacing: 20) {
             
-            Image(systemName: "film.stack")
+            Image("appicon")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 50, height: 50)
-                .foregroundColor(.red)
+                .cornerRadius(10.0)
+                .shadow(radius: 10.0)
             
             Text("Screenplay Genie")
                 .font(.title)

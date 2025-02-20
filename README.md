@@ -12,3 +12,6 @@ Screenplay Genie is an educational iOS app designed to guide users through the f
 
 | ![Screenshot](Resources/screenshot-1.png) | ![Screenshot](Resources/screenshot-2.png) |
 --- | ---
+
+| ![Screenshot](Resources/screenshot-3.png) | ![Screenshot](Resources/screenshot-4.png) |
+--- | ---
