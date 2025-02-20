@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+import ConfettiSwiftUI
 
 struct LessonDetailView: View {
     
     @Binding var lesson: Lesson
     @Binding var screenplay: String
     @State private var isValid: Bool = false
-
+    @State private var confettiTrigger: Int = 0
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -29,6 +31,7 @@ struct LessonDetailView: View {
                 
                 // Text Editor for Input
                 TextEditor(text: $lesson.userInput)
+                    .autocorrectionDisabled()
                     .frame(height: 100)
                     .border(editorBorderColor)
                     .padding(.bottom)
@@ -41,6 +44,7 @@ struct LessonDetailView: View {
                         
                         if newIsValid {
                             if !lesson.isCompleted {
+                                confettiTrigger += 1
                                 lesson.isCompleted = true
                             }
                             
@@ -78,6 +82,7 @@ struct LessonDetailView: View {
         }
         .padding()
         .navigationTitle(lesson.title)
+        .confettiCannon(trigger: $confettiTrigger)
     }
     
     var editorBorderColor: Color {

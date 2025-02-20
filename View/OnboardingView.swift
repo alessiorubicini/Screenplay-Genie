@@ -68,10 +68,14 @@ struct OnboardingPage: View {
     let isLastPage: Bool
     @Binding var presentationMode: PresentationMode
     @Binding var firstLaunch: Bool
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.orange, .white]), startPoint: .top, endPoint: .center)
+            LinearGradient(gradient: Gradient(colors: [
+                .orange,
+                colorScheme == .dark ? Color(uiColor: .systemBackground) : .white
+            ]), startPoint: .top, endPoint: .center)
                 .edgesIgnoringSafeArea(.all)
             
             VStack(alignment: .center) {
@@ -83,10 +87,12 @@ struct OnboardingPage: View {
                 Text(title)
                     .font(.title)
                     .fontWeight(.bold)
+
                     .padding()
 
                 Text(description)
                     .multilineTextAlignment(.center)
+
 
                 if isLastPage {
                     Button(action: {

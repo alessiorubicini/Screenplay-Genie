@@ -16,6 +16,8 @@ let package = Package(
         .iOSApplication(
             name: "Screenplay Genie",
             targets: ["AppModule"],
+            bundleIdentifier: "it.alessiorubicini.screenplaygenie",
+            teamIdentifier: "FXED6Z9HSN",
             displayVersion: "1.0",
             bundleVersion: "1",
             appIcon: .placeholder(icon: .movieReel),
@@ -29,12 +31,19 @@ let package = Package(
                 .landscapeRight,
                 .landscapeLeft,
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
-            ]
+            ],
+            appCategory: .education
         )
+    ],
+    dependencies: [
+        .package(url: "https://github.com/simibac/ConfettiSwiftUI.git", "2.0.2"..<"3.0.0")
     ],
     targets: [
         .executableTarget(
             name: "AppModule",
+            dependencies: [
+                .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
+            ],
             path: ".",
             swiftSettings: [
                 .enableUpcomingFeature("BareSlashRegexLiterals")
