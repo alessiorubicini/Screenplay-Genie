@@ -9,8 +9,14 @@ Screenplay Genie is an educational iOS app designed to guide users through the f
 - 🎨 Free Playground – Apply what you’ve learned in an unrestricted writing environment.
 - 📂 Fountain Markdown Support – Use the industry-standard lightweight markup language for screenwriting.
 
+### Images
+
 | ![Screenshot](Resources/screenshot-1.png) | ![Screenshot](Resources/screenshot-2.png) |
 --- | ---
 
 | ![Screenshot](Resources/screenshot-3.png) | ![Screenshot](Resources/screenshot-4.png) |
 --- | ---
+
+### Demo Video
+
+![Demo Video](Resources/GithubDemoGif.gif)
